@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   orders: ordersReducer,
 })
 
-const persistConfig = { key: 'currentUser', storage: storage, whitelist: ['currentUser'] }
+const persistConfig = { key: 'auth', storage: storage, whitelist: ['auth'] }
 const rootReducerWithPersist = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

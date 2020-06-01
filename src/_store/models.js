@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import _ from 'lodash'
 
-import { UI_INIT_STATE, UI_LOADING_STATE, UI_ERROR_STATE } from '../_helpers/request'
+import { UI_INIT_STATE, UI_LOADING_STATE, UI_ERROR_STATE } from '../_helpers'
 
 const modelsSlice = createSlice({
   name: 'models',
