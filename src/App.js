@@ -9,7 +9,7 @@ import Dashboard from './Dashboard'
 function App() {
 	return (
 		<>
-			<Header title="Alumonuim Factory App" />
+			<Header title="Aluminum Factory App" />
 			<Container>
 				<Switch>
 					<Route path="/dashboard" component={Dashboard} />
