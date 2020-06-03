@@ -24,6 +24,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import Divider from '@material-ui/core/Divider'
 
+import Alert from '@material-ui/lab/Alert'
+
 import styled from 'styled-components'
 const ListItemIcon = styled(Avatar)`
   width: 60px !important;
@@ -41,7 +43,6 @@ const deletePiston = id => e => {
 }
 
 function PistonItem({ id, name, sticksCapacity, diameterByMM, avgWeightForCM, notes }) {
-
 	return (
 		<React.Fragment key={id}>
 			<ListItem dense>
@@ -94,6 +95,11 @@ function PistonsList() {
 			<div className="w-100 h-100-vh flex-center">
 				<CircularProgress disableShrink />
 			</div>
+		)
+
+	else if (getPistonsUI.error)
+		return (
+				<Alert severity="error">{getPistonsUI.error.message || 'Something went wrong!'}</Alert>
 		)
 
 	return (
