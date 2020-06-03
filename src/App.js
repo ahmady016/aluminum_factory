@@ -5,6 +5,8 @@ import Container from '@material-ui/core/Container'
 
 import Header from './Header'
 import Dashboard from './Dashboard'
+import PistonsList from './pistons/PistonsList'
+import PistonForm from './pistons/PistonForm'
 
 function App() {
 	return (
@@ -13,7 +15,9 @@ function App() {
 			<Container>
 				<Switch>
 					<Route path="/dashboard" component={Dashboard} />
-					<Route path="/pistons" component={props => <h3>Pistons</h3>} />
+					<Route path="/pistons" component={PistonsList} />
+					<Route path="/piston-form/:id" component={PistonForm} />
+					<Route path="/piston-form" component={PistonForm} />
 					<Route path="/models" component={props => <h3>Models</h3>} />
 					<Route path="/cages" component={props => <h3>Cages</h3>} />
 					<Route path="/ovens" component={props => <h3>Ovens</h3>} />

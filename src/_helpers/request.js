@@ -3,7 +3,7 @@ import { store } from '../_store'
 import { history } from '../index'
 
 // build request and send it to the server and return the data OR error
-const BASE_URL = 'http://localhost:52078/api'
+const BASE_URL = 'http://localhost:5020'
 let error
 async function _send(request) {
 	try {
@@ -11,7 +11,7 @@ async function _send(request) {
       throw new Error('invalid request!!!')
 		const [method, url, body = null, config = null] = request
 		const { data } = await axios[method](BASE_URL + url, body, config)
-		return { status: 'success', response: data.data }
+		return { status: 'success', response: data }
 	} catch (err) {
 		// The request was made and the server responded with a status code that falls out of the range of 2xx
 		// error.response.data - error.response.status - error.response.headers
@@ -29,12 +29,12 @@ async function _send(request) {
 	}
 }
 
-export default async function request({ request, baseAction, onSuccessAction, redirectTo, resultMapper }) {
+export default async function request({ request, baseAction, onSuccessAction, redirectTo, resultMapper, setSubmitting = v => v }) {
   store.dispatch({ type: `${baseAction}Sent` })
   let { status, response } = await _send(request)
   if (status === 'success') {
 		if(request[0] === 'delete')
-			response = { id: request[2] }
+			response = { id: request[1].split('/')[2] }
 
 		if(resultMapper)
 			response = resultMapper(response)
@@ -43,6 +43,8 @@ export default async function request({ request, baseAction, onSuccessAction, re
 			onSuccessAction.forEach(action => void store.dispatch({ type: action, payload: response }))
 		else
 			store.dispatch({ type: onSuccessAction || `${baseAction}Succeed`, payload: response })
+
+		setSubmitting(false)
 
 		if(typeof redirectTo === 'string')
 			history.push(redirectTo)
