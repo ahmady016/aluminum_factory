@@ -2135,8 +2135,8 @@
       "type": "Holo",
       "pistonId": 1,
       "holesCount": 3,
-      "ThicknessByMM": 90,
-      "MeterWeight": 0.85,
+      "thicknessByMM": 90,
+      "meterWeight": 0.85,
       "notes": "this is first model"
     },
     {
@@ -2146,9 +2146,20 @@
       "type": "Flat",
       "pistonId": 2,
       "holesCount": 0,
-      "ThicknessByMM": 120,
-      "MeterWeight": 0.65,
+      "thicknessByMM": 120,
+      "meterWeight": 0.65,
       "notes": "this is second model"
+    },
+    {
+      "name": "IF-144/3",
+      "strip": "IF-144",
+      "type": "Holo",
+      "pistonId": 1,
+      "holesCount": 9,
+      "thicknessByMM": 120,
+      "meterWeight": 0.95,
+      "notes": "This is The Third Model",
+      "id": 3
     }
   ],
   "ovens": [

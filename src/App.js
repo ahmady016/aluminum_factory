@@ -7,6 +7,8 @@ import Header from './Header'
 import Dashboard from './Dashboard'
 import PistonsList from './pistons/PistonsList'
 import PistonForm from './pistons/PistonForm'
+import ModelsList from './models/ModelsList'
+import ModelForm from './models/ModelForm'
 
 function App() {
 	return (
@@ -18,7 +20,9 @@ function App() {
 					<Route path="/pistons" component={PistonsList} />
 					<Route path="/piston-form/:id" component={PistonForm} />
 					<Route path="/piston-form" component={PistonForm} />
-					<Route path="/models" component={props => <h3>Models</h3>} />
+					<Route path="/models" component={ModelsList} />
+					<Route path="/model-form/:id" component={ModelForm} />
+					<Route path="/model-form" component={ModelForm} />
 					<Route path="/cages" component={props => <h3>Cages</h3>} />
 					<Route path="/ovens" component={props => <h3>Ovens</h3>} />
 					<Route path="/customers" component={props => <h3>Customers</h3>} />
