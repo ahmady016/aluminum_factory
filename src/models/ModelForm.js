@@ -15,7 +15,6 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-let selectedModel, valuesToPost
 let initialModelValues = {
   name: '',
   strip: '',
@@ -29,10 +28,13 @@ let initialModelValues = {
 
 const modelValidation = Yup.object().shape({
 	strip: Yup.object()
+		.nullable()
 		.required('Required'),
 	type: Yup.object()
+		.nullable()
 		.required('Required'),
 	pistonId: Yup.object()
+		.nullable()
 		.required('Required'),
 	name: Yup.string()
 		.required('Required')
@@ -56,7 +58,7 @@ const modelValidation = Yup.object().shape({
 })
 
 const handleSubmit = id => (values, { setSubmitting }) => {
-	valuesToPost = {
+	let valuesToPost = {
 		...values,
 		strip: values?.strip.name,
 		type: values?.type.name,
@@ -84,7 +86,10 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
   console.log("TheModelForm -> modelId", modelId)
 	console.log("TheModelForm -> values", values)
 
-	selectedModel = useSelector( state => state.models.list[modelId])
+	let { models, selectedModel } = useSelector( state => ({
+		models: Object.values(state.models.list),
+		selectedModel: state.models.list[modelId]
+	}))
 	const { getStripsUI, strips, getModelTypesUI, modelTypes, getPistonsUI, pistons } = useSelector((state) => ({
 		getStripsUI: state.lookups.getStripsUI,
 		strips: Object.values(state.lookups.strips),
@@ -112,6 +117,11 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 				request: ['get', `/models/${modelId}`],
 				baseAction: 'models/getModel',
 			})
+		if(!models.length)
+			request({
+				request: ['get', '/models'],
+				baseAction: 'models/getModels',
+			})
 	}, [])
 
 	React.useEffect(() => {
@@ -133,9 +143,19 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 		}
 	}, [selectedModel, strips, modelTypes, pistons])
 
+	React.useEffect(() => {
+		console.log("models", models)
+		if(values.strip && models?.length) {
+			let thisStripModels = models.filter(model => model.strip === values.strip.name)
+      console.log("thisStripModels", thisStripModels)
+			setFieldValue('name', `${values.strip.name}/${thisStripModels.length + 1}`)
+		}
+	}, [values.strip])
+
   return (
 		<Form className='mt-1'>
 			<Grid container spacing={3}>
+				{/* strip */}
 				<Grid item md={6} xs={12}>
 					{getStripsUI.loading
 						? <div className="w-100 flex-center"><CircularProgress size={30} /></div>
@@ -164,6 +184,7 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 							/>
 					}
 				</Grid>
+				{/* type */}
 				<Grid item md={6} xs={12}>
 					{getModelTypesUI.loading
 						? <div className="w-100 flex-center"><CircularProgress size={30} /></div>
@@ -191,6 +212,7 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 							/>
 					}
 				</Grid>
+				{/* pistonId */}
 				<Grid item md={6} xs={12}>
 					{getPistonsUI.loading
 						? <div className="w-100 flex-center"><CircularProgress size={30} /></div>
@@ -218,15 +240,18 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 							/>
 					}
 				</Grid>
+				{/* name */}
 				<Grid item md={6} xs={12}>
 					<Field
 						type="text"
 						name="name"
 						label="Name"
-						fullWidth
 						component={FormikTextField}
+						fullWidth
+						InputProps={{ disabled: true }}
 					/>
 				</Grid>
+				{/* holesCount */}
 				<Grid item md={6} xs={12}>
 					<Field
 						type="number"
@@ -236,6 +261,7 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 						component={FormikTextField}
 					/>
 				</Grid>
+				{/* thicknessByMM */}
 				<Grid item md={6} xs={12}>
 					<Field
 						type="number"
@@ -245,6 +271,7 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 						component={FormikTextField}
 					/>
 				</Grid>
+				{/* meterWeight */}
 				<Grid item md={6} xs={12}>
 					<Field
 						type="number"
@@ -254,6 +281,7 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 						component={FormikTextField}
 					/>
 				</Grid>
+				{/* notes */}
 				<Grid item md={6} xs={12}>
 					<Field
 						type="text"
@@ -264,6 +292,7 @@ function TheModelForm({ modelId, resetForm, errors, touched, values, setFieldVal
 						component={FormikTextField}
 					/>
 				</Grid>
+				{/* submit button */}
 				<Grid item md={6} xs={12}>
 					<Button
 						className="w-100 mt-1"
