@@ -2167,25 +2167,25 @@
       "id": 1,
       "name": "oven 01",
       "cagesCapacity": 7,
-      "notes": "this is first oven"
+      "notes": "This is first oven"
     },
     {
       "id": 2,
       "name": "oven 02",
       "cagesCapacity": 11,
-      "notes": "this is second oven"
+      "notes": "This is second oven"
     },
     {
       "id": 3,
       "name": "oven 03",
       "cagesCapacity": 9,
-      "notes": "this is third oven"
+      "notes": "This is third oven"
     }
   ],
   "cageTypes": [
     {
       "id": 1,
-      "name": "Oven"
+      "name": "Piston"
     },
     {
       "id": 2,
@@ -2196,14 +2196,14 @@
     {
       "id": 1,
       "name": "cage 01",
-      "type": "Oven",
-      "notes": "this is first cage"
+      "type": "Piston",
+      "notes": "This is first cage"
     },
     {
       "id": 2,
       "name": "cage 02",
       "type": "Paint",
-      "notes": "this is second cage"
+      "notes": "This is second cage"
     }
   ],
   "customers": [

@@ -9,6 +9,8 @@ import PistonsList from './pistons/PistonsList'
 import PistonForm from './pistons/PistonForm'
 import ModelsList from './models/ModelsList'
 import ModelForm from './models/ModelForm'
+import OvensList from './ovens/OvensList'
+import OvenForm from './ovens/OvenForm'
 
 function App() {
 	return (
@@ -23,8 +25,10 @@ function App() {
 					<Route path="/models" component={ModelsList} />
 					<Route path="/model-form/:id" component={ModelForm} />
 					<Route path="/model-form" component={ModelForm} />
+					<Route path="/ovens" component={OvensList} />
+					<Route path="/oven-form/:id" component={OvenForm} />
+					<Route path="/oven-form" component={OvenForm} />
 					<Route path="/cages" component={props => <h3>Cages</h3>} />
-					<Route path="/ovens" component={props => <h3>Ovens</h3>} />
 					<Route path="/customers" component={props => <h3>Customers</h3>} />
 					<Route path="/orders" component={props => <h3>Orders</h3>} />
 					<Redirect to="/dashboard" />
