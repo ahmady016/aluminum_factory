@@ -28,8 +28,8 @@ const PaperItem = styled(Paper)`
 const DASHBOARD_LINKS = [
 	'pistons',
 	'models',
-	'cages',
 	'ovens',
+	'cages',
 	'customers',
 	'orders',
 ]

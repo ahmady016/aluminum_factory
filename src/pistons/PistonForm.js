@@ -8,11 +8,11 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { TextField } from 'formik-material-ui'
 
+import Alert from '@material-ui/lab/Alert'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-let selectedPiston
 const initialPistonValues = {
 	name: '',
 	sticksCapacity: '',
@@ -127,17 +127,29 @@ function ThePistonForm({ submitForm, isSubmitting, dirty, isValid }) {
 }
 
 function PistonForm({ match: { params } }) {
-	selectedPiston = useSelector( state => state.pistons.list[params.id])
-  React.useEffect(
-    () => {
+	const { getPistonUI, selectedPiston } = useSelector( state => ({
+    getPistonUI: state.pistons.getPistonUI,
+    selectedPiston: state.pistons.list[params.id],
+  }))
+  React.useEffect(() => {
       if(params.id && !selectedPiston)
         request({
 				request: ['get', `/pistons/${params.id}`],
 				baseAction: 'pistons/getPiston',
 			})
-    },
-    []
-	)
+    }, [])
+
+	if (getPistonUI.loading)
+    return (
+      <div className="w-100 h-100-vh flex-center">
+        <CircularProgress disableShrink />
+      </div>
+    )
+
+  else if (getPistonUI.error)
+		return (
+				<Alert severity="error">{getPistonUI.error.message || 'Something went wrong!'}</Alert>
+		)
 
 	return (
 		<Formik
@@ -145,6 +157,7 @@ function PistonForm({ match: { params } }) {
 			validationSchema={pistonValidation}
 			onSubmit={handleSubmit(params.id)}
 			component={ThePistonForm}
+			enableReinitialize={true}
 		/>
 	)
 }

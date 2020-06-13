@@ -8,6 +8,7 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { TextField } from 'formik-material-ui'
 
+import Alert from '@material-ui/lab/Alert'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -50,7 +51,7 @@ const handleSubmit = id => (values, { setSubmitting }) => {
 		})
 }
 
-function TheOvenForm({ values, submitForm, isSubmitting, dirty, isValid }) {
+function TheOvenForm({ submitForm, isSubmitting, dirty, isValid }) {
   return (
 		<Form className='mt-1'>
 			<Grid container spacing={3}>
@@ -103,7 +104,10 @@ function TheOvenForm({ values, submitForm, isSubmitting, dirty, isValid }) {
 }
 
 function OvenForm({ match: { params } }) {
-  const selectedOven = useSelector( state => state.ovens.list[params.id])
+	const { getOvenUI, selectedOven } = useSelector( state => ({
+    getOvenUI: state.ovens.getOvenUI,
+    selectedOven: state.ovens.list[params.id],
+  }))
   React.useEffect(() => {
       if(params.id && !selectedOven)
         request({
@@ -111,6 +115,18 @@ function OvenForm({ match: { params } }) {
 				baseAction: 'ovens/getOven',
 			})
     }, [])
+
+	if (getOvenUI.loading)
+    return (
+      <div className="w-100 h-100-vh flex-center">
+        <CircularProgress disableShrink />
+      </div>
+    )
+
+  else if (getOvenUI.error)
+		return (
+				<Alert severity="error">{getOvenUI.error.message || 'Something went wrong!'}</Alert>
+		)
 
 	return (
 		<Formik

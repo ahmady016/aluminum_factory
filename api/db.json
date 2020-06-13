@@ -2204,6 +2204,12 @@
       "name": "cage 02",
       "type": "Paint",
       "notes": "This is second cage"
+    },
+    {
+      "name": "cage 03",
+      "type": "Paint",
+      "notes": "This is The Third Cage",
+      "id": 3
     }
   ],
   "customers": [
