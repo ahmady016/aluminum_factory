@@ -13,6 +13,8 @@ import OvensList from './ovens/OvensList'
 import OvenForm from './ovens/OvenForm'
 import CagesList from './cages/CagesList'
 import CageForm from './cages/CageForm'
+import CustomersList from './customers/CustomersList'
+import CustomerForm from './customers/CustomerForm'
 
 function App() {
 	return (
@@ -33,7 +35,9 @@ function App() {
 					<Route path="/cages" component={CagesList} />
 					<Route path="/cage-form/:id" component={CageForm} />
 					<Route path="/cage-form" component={CageForm} />
-					<Route path="/customers" component={props => <h3>Customers</h3>} />
+					<Route path="/customers" component={CustomersList} />
+					<Route path="/customer-form/:id" component={CustomerForm} />
+					<Route path="/customer-form" component={CustomerForm} />
 					<Route path="/orders" component={props => <h3>Orders</h3>} />
 					<Redirect to="/dashboard" />
 				</Switch>

@@ -13,55 +13,54 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const initialPistonValues = {
+const initialCustomerValues = {
 	name: '',
-	sticksCapacity: '',
-	diameterByMM: '',
-	avgWeightForCM: '',
+	email: '',
+	mobile: '',
+	address: '',
 	notes: '',
 }
 
-const pistonValidation = Yup.object().shape({
+const customerValidation = Yup.object().shape({
 	name: Yup.string()
 		.required('Required')
 		.min(2, 'Too Short Name')
 		.max(50, 'Too Long Name'),
-	sticksCapacity: Yup.number()
+  email: Yup.string()
+    .required('Required')
+    .email('Not Valid Email'),
+  mobile: Yup.string()
 		.required('Required')
-		.min(2, 'Too Short sticks Capacity')
-		.max(20, 'Too Long sticks Capacity'),
-	diameterByMM: Yup.number()
+		.min(11, 'Short Mobile Number')
+		.max(11, 'Long Mobile Number'),
+  address: Yup.string()
 		.required('Required')
-		.min(50, 'Too Short diameter')
-		.max(999, 'Too Long diameter'),
-	avgWeightForCM: Yup.number()
-		.required('Required')
-		.min(0.1, 'Too Short Average Weight')
-		.max(10, 'Too Long Average Weight'),
+		.min(5, 'Too Short Address')
+		.max(1000, 'Too Long Address'),
 	notes: Yup.string()
-		.min(5, 'Too Short notes')
-		.max(1000, 'Too Long notes'),
+		.min(5, 'Too Short Notes')
+		.max(1000, 'Too Long Notes'),
 })
 
 const handleSubmit = id => (values, { setSubmitting }) => {
 	if(id)
 		request({
-			request: ['put', `/pistons/${id}`, values],
-			baseAction: 'pistons/updatePiston',
-			redirectTo: '/pistons',
+			request: ['put', `/customers/${id}`, values],
+			baseAction: 'customers/updateCustomer',
+			redirectTo: '/customers',
 			setSubmitting
 		})
 	else
 		request({
-			request: ['post', '/pistons', values],
-			baseAction: 'pistons/addPiston',
-			redirectTo: '/pistons',
+			request: ['post', '/customers', values],
+			baseAction: 'customers/addCustomer',
+			redirectTo: '/customers',
 			setSubmitting,
 		})
 }
 
-function ThePistonForm({ submitForm, isSubmitting, dirty, isValid }) {
-	return (
+function TheCustomerForm({ submitForm, isSubmitting, dirty, isValid }) {
+  return (
 		<Form className='mt-1'>
 			<Grid container spacing={3}>
 				<Grid item md={6} xs={12}>
@@ -75,28 +74,29 @@ function ThePistonForm({ submitForm, isSubmitting, dirty, isValid }) {
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<Field
-						type="number"
-						name="diameterByMM"
-						label="Diameter (MM)"
+						type="text"
+						name="email"
+						label="Email"
 						fullWidth
 						component={TextField}
 					/>
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<Field
-						type="number"
-						name="avgWeightForCM"
-						label="Average Weight For CM"
+						type="text"
+						name="mobile"
+						label="Mobile"
 						fullWidth
 						component={TextField}
 					/>
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<Field
-						type="number"
-						name="sticksCapacity"
-						label="Sticks Capacity"
-						fullWidth
+						type="text"
+						name="address"
+						label="Address"
+            fullWidth
+            multiline
 						component={TextField}
 					/>
 				</Grid>
@@ -123,43 +123,43 @@ function ThePistonForm({ submitForm, isSubmitting, dirty, isValid }) {
 				</Grid>
 			</Grid>
 		</Form>
-	)
+  )
 }
 
-function PistonForm({ match: { params } }) {
-	const { getPistonUI, selectedPiston } = useSelector( state => ({
-    getPistonUI: state.pistons.getPistonUI,
-    selectedPiston: state.pistons.list[params.id],
+function CustomerForm({ match: { params } }) {
+	const { getCustomerUI, selectedCustomer } = useSelector( state => ({
+    getCustomerUI: state.customers.getCustomerUI,
+    selectedCustomer: state.customers.list[params.id],
   }))
   React.useEffect(() => {
-      if(params.id && !selectedPiston)
+      if(params.id && !selectedCustomer)
         request({
-				request: ['get', `/pistons/${params.id}`],
-				baseAction: 'pistons/getPiston',
+				request: ['get', `/customers/${params.id}`],
+				baseAction: 'customers/getCustomer',
 			})
     }, [])
 
-	if (getPistonUI.loading)
+	if (getCustomerUI.loading)
     return (
       <div className="w-100 h-100-vh flex-center">
         <CircularProgress disableShrink />
       </div>
     )
 
-  else if (getPistonUI.error)
+  else if (getCustomerUI.error)
 		return (
-				<Alert severity="error">{getPistonUI.error.message || 'Something went wrong!'}</Alert>
+				<Alert severity="error">{getCustomerUI.error.message || 'Something went wrong!'}</Alert>
 		)
 
 	return (
 		<Formik
-			initialValues={(params.id) ? selectedPiston : initialPistonValues}
-			validationSchema={pistonValidation}
+			initialValues={(params.id) ? selectedCustomer : initialCustomerValues}
+			validationSchema={customerValidation}
 			onSubmit={handleSubmit(params.id)}
-			component={ThePistonForm}
+			component={TheCustomerForm}
 			enableReinitialize={true}
 		/>
 	)
 }
 
-export default PistonForm
+export default CustomerForm
