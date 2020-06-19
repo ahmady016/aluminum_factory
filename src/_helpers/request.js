@@ -4,14 +4,25 @@ import { history } from '../index'
 
 // build request and send it to the server and return the data OR error
 const BASE_URL = 'http://localhost:5020'
-let error
+let allPromises = [], allResponses = [], error
 async function _send(request) {
 	try {
     if (!Array.isArray(request))
-      throw new Error('invalid request!!!')
-		const [method, url, body = null, config = null] = request
-		const { data } = await axios[method](BASE_URL + url, body, config)
-		return { status: 'success', response: data }
+			throw new Error('invalid request!!!')
+
+		if ( Array.isArray(request) && Array.isArray(request[0]) ) {
+			allPromises = request.map(request => {
+				const [method, url, body = null, config = null] = request
+				return axios[method](BASE_URL + url, body, config)
+			})
+			allResponses = await axios.all(allPromises)
+			return { status: 'success', response: allResponses.map(res => res.data) }
+		}
+		else if ( Array.isArray(request) && typeof request[0] === 'string' ) {
+			const [method, url, body = null, config = null] = request
+			const { data } = await axios[method](BASE_URL + url, body, config)
+			return { status: 'success', response: data }
+		}
 	} catch (err) {
 		// The request was made and the server responded with a status code that falls out of the range of 2xx
 		// error.response.data - error.response.status - error.response.headers
