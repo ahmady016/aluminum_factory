@@ -6,63 +6,85 @@ import { UI_INIT_STATE, UI_LOADING_STATE, UI_ERROR_STATE } from '../_helpers'
 const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
-    getOrders: UI_INIT_STATE(),
-    getOrder: UI_INIT_STATE(),
-    addOrder: UI_INIT_STATE(),
-    updateOrder: UI_INIT_STATE(),
-    deleteOrder: UI_INIT_STATE(),
+    getOrdersUI: UI_INIT_STATE(),
+    getOrderUI: UI_INIT_STATE(),
+    getOrderDetailsUI: UI_INIT_STATE(),
+    addOrderUI: UI_INIT_STATE(),
+    updateOrderUI: UI_INIT_STATE(),
+    deleteOrderUI: UI_INIT_STATE(),
+    deleteOrderDetailUI: UI_INIT_STATE(),
     list: {}
   },
   reducers: {
     getOrdersSent: (state, _) => {
-      state.getOrders = UI_LOADING_STATE()
+      state.getOrdersUI = UI_LOADING_STATE()
     },
     getOrdersFailed: (state, { payload }) => {
-      state.getOrders = UI_ERROR_STATE(payload)
+      state.getOrdersUI = UI_ERROR_STATE(payload)
     },
     getOrdersSucceed: (state, { payload }) => {
-      state.getOrders = UI_INIT_STATE()
+      state.getOrdersUI = UI_INIT_STATE()
       state.list = _.mapKeys(payload, 'id')
     },
+    getOrderDetailsSent: (state, _) => {
+      state.getOrderDetailsUI = UI_LOADING_STATE()
+    },
+    getOrderDetailsFailed: (state, { payload }) => {
+      state.getOrderDetailsUI = UI_ERROR_STATE(payload)
+    },
+    getOrderDetailsSucceed: (state, { payload }) => {
+      state.getOrderDetailsUI = UI_INIT_STATE()
+      state.list[payload[0].orderId].orderDetails = _.mapKeys(payload, 'id')
+    },
     getOrderSent: (state, _) => {
-      state.getOrder = UI_LOADING_STATE()
+      state.getOrderUI = UI_LOADING_STATE()
     },
     getOrderFailed: (state, { payload }) => {
-      state.getOrder = UI_ERROR_STATE(payload)
+      state.getOrderUI = UI_ERROR_STATE(payload)
     },
     getOrderSucceed: (state, { payload }) => {
-      state.getOrder = UI_INIT_STATE()
+      state.getOrderUI = UI_INIT_STATE()
       state.list[payload.id] = payload
     },
     addOrderSent: (state, _) => {
-      state.addOrder = UI_LOADING_STATE()
+      state.addOrderUI = UI_LOADING_STATE()
     },
     addOrderFailed: (state, { payload }) => {
-      state.addOrder = UI_ERROR_STATE(payload)
+      state.addOrderUI = UI_ERROR_STATE(payload)
     },
     addOrderSucceed: (state, { payload }) => {
-      state.addOrder = UI_INIT_STATE()
+      state.addOrderUI = UI_INIT_STATE()
       state.list[payload.id] = payload
     },
     updateOrderSent: (state, _) => {
-      state.updateOrder = UI_LOADING_STATE()
+      state.updateOrderUI = UI_LOADING_STATE()
     },
     updateOrderFailed: (state, { payload }) => {
-      state.updateOrder = UI_ERROR_STATE(payload)
+      state.updateOrderUI = UI_ERROR_STATE(payload)
     },
     updateOrderSucceed: (state, { payload }) => {
-      state.updateOrder = UI_INIT_STATE()
+      state.updateOrderUI = UI_INIT_STATE()
       state.list[payload.id] = payload
     },
     deleteOrderSent: (state, _) => {
-      state.deleteOrder = UI_LOADING_STATE()
+      state.deleteOrderUI = UI_LOADING_STATE()
     },
     deleteOrderFailed: (state, { payload }) => {
-      state.deleteOrder = UI_ERROR_STATE(payload)
+      state.deleteOrderUI = UI_ERROR_STATE(payload)
     },
     deleteOrderSucceed: (state, { payload }) => {
-      state.deleteOrder = UI_INIT_STATE()
+      state.deleteOrderUI = UI_INIT_STATE()
       state.list = _.omit(state.list, payload.id)
+    },
+    deleteOrderDetailSent: (state, _) => {
+      state.deleteOrderDetailUI = UI_LOADING_STATE()
+    },
+    deleteOrderDetailFailed: (state, { payload }) => {
+      state.deleteOrderDetailUI = UI_ERROR_STATE(payload)
+    },
+    deleteOrderDetailSucceed: (state, { payload }) => {
+      state.deleteOrderDetailUI = UI_INIT_STATE()
+      state.list[payload.orderId].orderDetails = _.omit(state.list[payload.orderId], payload.id)
     }
   }
 })

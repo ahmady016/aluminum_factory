@@ -2374,6 +2374,92 @@
       "notes": "The Percalum Inc."
     }
   ],
-  "orders": [],
-  "ordersDetails": []
+  "orderStatuses": [
+    {
+      "id": 1,
+      "name": "Pending"
+    },
+    {
+      "id": 2,
+      "name": "InProduction"
+    },
+    {
+      "id": 3,
+      "name": "Completed"
+    },
+    {
+      "id": 4,
+      "name": "Closed"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "serialNumber": "R1",
+      "status": "Pending",
+      "customerId": 1,
+      "dueDate": 1592369588545,
+      "isPublic": true,
+      "notes": "This is The First Order"
+    },
+    {
+      "id": 2,
+      "serialNumber": "R2",
+      "status": "Pending",
+      "customerId": 2,
+      "dueDate": 1592369836105,
+      "isPublic": true,
+      "notes": "This is The Second Order"
+    }
+  ],
+  "ordersDetails": [
+    {
+      "id": 1,
+      "orderId": 1,
+      "strip": "IF-144",
+      "length": "5.000",
+      "color": "Metallic Brown",
+      "hardness": "T5",
+      "avgMeterWeight": 0.75,
+      "sticksCount": 400,
+      "totalWeight": 300,
+      "notes": "This is The First Order Details Item"
+    },
+    {
+      "id": 2,
+      "orderId": 1,
+      "strip": "DD-03",
+      "length": "6.500",
+      "color": "MF Metallic",
+      "hardness": "T4",
+      "avgMeterWeight": 0.85,
+      "sticksCount": 500,
+      "totalWeight": 425,
+      "notes": "This is The Second Order Details Item"
+    },
+    {
+      "id": 3,
+      "orderId": 2,
+      "strip": "MR-465",
+      "length": "6.000",
+      "color": "9016",
+      "hardness": "T4",
+      "avgMeterWeight": 0.90,
+      "sticksCount": 600,
+      "totalWeight": 540,
+      "notes": "This is The First Order Details Item"
+    },
+    {
+      "id": 4,
+      "orderId": 2,
+      "strip": "HSB-24A",
+      "length": "5.000",
+      "color": "Metallic Brown+silver",
+      "hardness": "T5",
+      "avgMeterWeight": 0.80,
+      "sticksCount": 400,
+      "totalWeight": 320,
+      "notes": "This is The Second Order Details Item"
+    }
+  ]
 }

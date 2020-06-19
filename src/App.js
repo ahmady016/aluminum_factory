@@ -5,16 +5,25 @@ import Container from '@material-ui/core/Container'
 
 import Header from './Header'
 import Dashboard from './Dashboard'
+
 import PistonsList from './pistons/PistonsList'
 import PistonForm from './pistons/PistonForm'
+
 import ModelsList from './models/ModelsList'
 import ModelForm from './models/ModelForm'
+
 import OvensList from './ovens/OvensList'
 import OvenForm from './ovens/OvenForm'
+
 import CagesList from './cages/CagesList'
 import CageForm from './cages/CageForm'
+
 import CustomersList from './customers/CustomersList'
 import CustomerForm from './customers/CustomerForm'
+
+import OrdersList from './orders/OrdersList'
+import OrderDetails from './orders/OrderDetails'
+import OrderForm from './orders/OrderForm'
 
 function App() {
 	return (
@@ -38,7 +47,10 @@ function App() {
 					<Route path="/customers" component={CustomersList} />
 					<Route path="/customer-form/:id" component={CustomerForm} />
 					<Route path="/customer-form" component={CustomerForm} />
-					<Route path="/orders" component={props => <h3>Orders</h3>} />
+					<Route path="/orders" component={OrdersList} />
+					<Route path="/order-details/:id" component={OrderDetails} />
+					<Route path="/order-form/:id" component={OrderForm} />
+					<Route path="/order-form" component={OrderForm} />
 					<Redirect to="/dashboard" />
 				</Switch>
 			</Container>
