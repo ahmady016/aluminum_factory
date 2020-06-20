@@ -74,26 +74,18 @@ function OrderDetail({ id, orderId, strip, length, color, hardness, avgMeterWeig
 }
 
 function OrderDetails({ match: { params } }) {
-  const { getOrderUI, getOrderDetailsUI, customers, selectedOrder } = useSelector( state => ({
+  const { getOrderUI, customers, selectedOrder } = useSelector( state => ({
     getOrderUI: state.orders.getOrderUI,
-    getOrderDetailsUI: state.orders.getOrderDetailsUI,
-    customers: state.customers.list,
     selectedOrder: state.orders.list[params.id],
+    customers: state.customers.list,
   }))
 
   React.useEffect(() => {
-		if (!selectedOrder) {
-			request({
-				request: ['get', `/orders/${params.id}`],
-				baseAction: 'orders/getOrder',
-      })
-    }
-    if(selectedOrder && !selectedOrder.orderDetails) {
-      request({
-        request: ['get', `/ordersDetails?orderId=${params.id}`],
-        baseAction: 'orders/getOrderDetails',
-      })
-    }
+    if(!selectedOrder || !selectedOrder.ordersDetails)
+    request({
+      request: ['get', `/orders/${params.id}?_embed=ordersDetails`],
+      baseAction: 'orders/getOrder',
+    })
   }, [selectedOrder])
 
   React.useEffect(() => {
@@ -104,16 +96,16 @@ function OrderDetails({ match: { params } }) {
       })
   }, [Object.keys(customers).length])
 
-	if (getOrderUI.loading || getOrderDetailsUI.loading)
+	if (getOrderUI.loading)
     return (
       <div className="w-100 h-100-vh flex-center">
         <CircularProgress disableShrink />
       </div>
     )
 
-  else if (getOrderUI.error || getOrderDetailsUI.error)
+  else if (getOrderUI.error)
 		return (
-				<Alert severity="error">{getOrderUI.error?.message || getOrderDetailsUI.error?.message || 'Something went wrong!'}</Alert>
+				<Alert severity="error">{getOrderUI.error?.message || 'Something went wrong!'}</Alert>
 		)
 
   else if(selectedOrder)
@@ -122,13 +114,13 @@ function OrderDetails({ match: { params } }) {
 				<CardHeader
 					avatar={<Avatar aria-label="order">{selectedOrder.serialNumber}</Avatar>}
 					title={`${customers[selectedOrder.customerId]?.name} - ${selectedOrder.isPublic ? 'Public' : 'Private'}`}
-					subheader={format(selectedOrder.dueDate, 'dd/MM/yyyy hh:mm:ss a')}
+					subheader={format(new Date(selectedOrder.dueDate), 'dd/MM/yyyy hh:mm:ss a')}
 				/>
 				<CardContent>
 					<div className="mt-05"><strong>Status: </strong>{selectedOrder.status}</div>
 					<div className="mt-05"><strong>Notes: </strong>{selectedOrder.notes}</div>
 					<List className="w-100">
-            {selectedOrder.orderDetails && Object.values(selectedOrder.orderDetails)
+            {selectedOrder.ordersDetails && Object.values(selectedOrder.ordersDetails)
               .map(orderDetail => <OrderDetail {...orderDetail} />)
             }
 					</List>

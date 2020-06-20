@@ -61,7 +61,7 @@ function OrderItem({ customers, id, serialNumber, customerId, dueDate, status, i
 							<div className="my-05">{customers[customerId] ? customers[customerId].name : null}</div>
               <div className="my-05">{notes}</div>
 							<div className="flex-between">
-              	<span><strong>Due Date: </strong>{format(dueDate, 'dd/MM/yyyy hh:mm:ss a')}</span>
+              	<span><strong>Due Date: </strong>{format(new Date(dueDate), 'dd/MM/yyyy hh:mm:ss a')}</span>
 								<span><strong>Status: </strong>{status}</span>
 								<span><strong>{isPublic ? 'Public' : 'Private'}</strong></span>
 							</div>
@@ -93,12 +93,11 @@ function OrdersList() {
 	}))
 
 	React.useEffect(() => {
-    if(!orders.length)
-      request({
-        request: ['get', '/orders'],
-        baseAction: 'orders/getOrders',
-      })
-  }, [orders.length])
+		request({
+			request: ['get', '/orders'],
+			baseAction: 'orders/getOrders',
+		})
+  }, [])
 
 	React.useEffect(() => {
     if(!Object.keys(customers).length)

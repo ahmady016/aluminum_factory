@@ -2381,14 +2381,18 @@
     },
     {
       "id": 2,
-      "name": "InProduction"
+      "name": "Opened"
     },
     {
       "id": 3,
-      "name": "Completed"
+      "name": "InProduction"
     },
     {
       "id": 4,
+      "name": "Completed"
+    },
+    {
+      "id": 5,
       "name": "Closed"
     }
   ],
@@ -2410,6 +2414,15 @@
       "dueDate": 1592369836105,
       "isPublic": true,
       "notes": "This is The Second Order"
+    },
+    {
+      "status": "Pending",
+      "serialNumber": "R4",
+      "customerId": 7,
+      "dueDate": "2020-06-24T12:00:00.000Z",
+      "isPublic": true,
+      "notes": "This is The Third Order",
+      "id": 3
     }
   ],
   "ordersDetails": [
@@ -2444,7 +2457,7 @@
       "length": "6.000",
       "color": "9016",
       "hardness": "T4",
-      "avgMeterWeight": 0.90,
+      "avgMeterWeight": 0.9,
       "sticksCount": 600,
       "totalWeight": 540,
       "notes": "This is The First Order Details Item"
@@ -2456,7 +2469,7 @@
       "length": "5.000",
       "color": "Metallic Brown+silver",
       "hardness": "T5",
-      "avgMeterWeight": 0.80,
+      "avgMeterWeight": 0.8,
       "sticksCount": 400,
       "totalWeight": 320,
       "notes": "This is The Second Order Details Item"

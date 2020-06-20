@@ -34,7 +34,7 @@ const ordersSlice = createSlice({
     },
     getOrderDetailsSucceed: (state, { payload }) => {
       state.getOrderDetailsUI = UI_INIT_STATE()
-      state.list[payload[0].orderId].orderDetails = _.mapKeys(payload, 'id')
+      state.list[payload[0].orderId].ordersDetails = _.mapKeys(payload, 'id')
     },
     getOrderSent: (state, _) => {
       state.getOrderUI = UI_LOADING_STATE()
